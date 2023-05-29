@@ -208,6 +208,7 @@ class AdaptiveScreenState extends State<Adaptive_Screen_for_GUI> {
   @override
   void initState() {
     super.initState();
+    get_dir();
     newuid = _textEditingController.text;
     getDefaultGateway();
   }
@@ -241,6 +242,15 @@ class AdaptiveScreenState extends State<Adaptive_Screen_for_GUI> {
     print('Default Gateway: $ip');
   }
 
+  void get_dir (){
+
+    try{
+      final currentDirectory = Directory.current;
+      print("this is the running directory"+currentDirectory.toString());
+    }catch(e){
+      print("ther is an error getting the current path"+e.toString());
+    }
+  }
 
 
 }
