@@ -28,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     final double cardWidth = screenWidth * 0.2;
-    final double cardHeight = screenHeight * 0.2;
+    final double cardHeight = screenHeight * 0.3;
     final double spacing = screenWidth * 0.1;
 
     Widget getSelectedWidget() {
@@ -56,11 +56,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Container(
                           width: cardWidth,
                           height: cardHeight,
-                          color: Colors.white,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.75),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // changes the shadow position
+                              ),
+                            ],
+                          ),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.emergency_recording),
+                              Icon(Icons.emergency_recording,
+                              size: 50,),
                               Container(
                                 height: 10,
                               ),
@@ -72,7 +84,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   backWidget: Container(
                       width: cardWidth,
                       height: cardHeight,
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.75),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 3), // changes the shadow position
+                          ),
+                        ],
+                      ),
+
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -121,7 +145,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.play_arrow),
+                            Icon(Icons.play_arrow,
+                              size: 50,),
                             Text('Run Automated Test'),
                           ],
                         ),
@@ -142,7 +167,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.check),
+                            Icon(Icons.check,
+                              size: 50,),
                             Text('Validate Test'),
                           ],
                         ),
