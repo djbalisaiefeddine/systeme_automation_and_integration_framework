@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 import '../Login.dart';
+import 'CPU_Monitor.dart';
 import 'GUI_listener/Gui_record.dart';
 import 'Cli_interpreter/User_cmd_interaction.dart';
 import 'Log_messages.dart';
@@ -167,7 +168,7 @@ class AdaptiveScreenState extends State<Adaptive_Screen_for_GUI> {
                             },
                           );
                         },
-                        //child: log_tail(),
+                        child: log_tail(),
                       ),
                       width: double.infinity,
                       height: double.infinity,
@@ -192,7 +193,24 @@ class AdaptiveScreenState extends State<Adaptive_Screen_for_GUI> {
                   Expanded(
                     flex: 3,
                     child: Container(
-                      color: Colors.red,
+                      child:GestureDetector(
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Widget'),
+                                content: Container(
+                                  width: MediaQuery.of(context).size.width * 0.75,
+                                  height: MediaQuery.of(context).size.height * 0.75,
+                                  child: CPU_Monotoring(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: CPU_Monotoring(),
+                      ),
                       width: double.infinity,
                       height: double.infinity,
                     ),

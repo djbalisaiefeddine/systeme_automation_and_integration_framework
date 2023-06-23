@@ -2,22 +2,23 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dartssh2/dartssh2.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 
-class log_tail extends StatefulWidget {
+class CPU_Monotoring extends StatefulWidget {
   @override
-  _log_tailState createState() => _log_tailState();
+  CPU_MonotoringState createState() => CPU_MonotoringState();
 }
 
-class _log_tailState extends State<log_tail> {
+class CPU_MonotoringState extends State<CPU_Monotoring> {
   List<String> lines = [];
   late StreamSubscription<dynamic> subscription;
 
   @override
   void initState() {
     super.initState();
-    //getDefaultGateway();
-    startlogs();
+    getDefaultGateway();
+
   }
 
   Future<void> start(String ip) async {
@@ -85,63 +86,55 @@ class _log_tailState extends State<log_tail> {
         }
         });*/
     //start(ip);
-    ssh_connect();
+    startlogs(ip);
     print('Default Gateway: $ip');
   }
 
-  Future<void> ssh_connect() async {
-      final socket = await SSHSocket.connect('192.168.1.254', 51022);
 
-      final client = SSHClient(
-        socket,
-        username: 'access',
-          onPasswordRequest: () =>'goKf/Z*#uRSc,Zyf',
-          //return stdin.readLineSync() ?? exit(1);
+
+  Future<void> startlogs(String ip) async {
+
+    // add sytsem variable
+    try {
+      final process = await Process.start('cpu_cli', ['-gw' ,"192.168.1.254",'-p', '51022' ,'-u', 'access', '-pw', 'goKf/Z*#uRSc,Zyf']);
+      final output = StringBuffer();
+
+      final stdout = process.stdout.asBroadcastStream();
+
+      stdout.listen(
+            (data) {
+          final decodedData = utf8.decode(data, allowMalformed: true);
+          output.write(decodedData);
+          final linesFromOutput = output.toString().split('\n');
+          lines.addAll(linesFromOutput);
+          setState(() {
+
+          });
+        },
+        onError: (error) {
+          print('Error: $error');
+        },
+        onDone: () {
+          print('Process complete');
+        },
       );
-      final shell = await client.shell();
-      final up = await client.run('uptime');
-      print(utf8.decode(up));
-      final uptime = await client.run('tail -F /var/log/messages');
-      stdout.addStream(shell.stdout);
-
-      stdout.addStream(shell.stdout).asStream().listen((event) {
-        print(event);
-      });
-      print("subscription state "+subscription.isPaused.toString());
-      print(utf8.decode(uptime));
-
-      client.close();
-      await client.done;
+    } catch (e) {
+      print('Error: $e');
     }
 
-    Future<void> startlogs() async {
-      try {
-        final process = await Process.start('logs', ['-gw' ,"192.168.1.254",'-p', '51022' ,'-u', 'access', '-pw', 'goKf/Z*#uRSc,Zyf']);
-        final output = StringBuffer();
+  }
 
-        final stdout = process.stdout.asBroadcastStream();
 
-        stdout.listen(
-              (data) {
-            final decodedData = utf8.decode(data, allowMalformed: true);
-            output.write(decodedData);
-            final linesFromOutput = output.toString().split('\n');
-            lines.addAll(linesFromOutput);
-            setState(() {
-
-            });
-          },
-          onError: (error) {
-            print('Error: $error');
-          },
-          onDone: () {
-            print('Process complete');
-          },
-        );
-      } catch (e) {
-        print('Error: $e');
-      }
-
+  Future<String> _read() async {
+    String text ="";
+    try {
+      final Directory directory = await getApplicationDocumentsDirectory();
+      final File file = File('${directory.path}/my_file.txt');
+      text = await file.readAsString();
+    } catch (e) {
+      print("Couldn't read file");
     }
+    return text;
+  }
 
 }

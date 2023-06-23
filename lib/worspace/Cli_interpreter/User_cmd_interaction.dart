@@ -48,6 +48,7 @@ class _CmdInteractionState extends State<cmdinteraction> {
           final lines = output.toString().split('\n');
           lines.forEach(
                 (element) {
+                  print(element);
               if(element.trim().isNotEmpty){
                 final newOutput = OutputItem(text: element, isValid: false);
                 setState(

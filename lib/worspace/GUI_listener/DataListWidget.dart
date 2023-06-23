@@ -2,6 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import '../main_stage.dart';
+
+
+
+String id =AdaptiveScreenState.getUid();
 class DataListWidget extends StatelessWidget {
   final List<dynamic> dataList;
 
@@ -10,7 +15,7 @@ class DataListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (dataList.length >= 1 && dataList[0] is Map<String, dynamic>) {
-      final jsonMap = dataList[0]['yesy'] as Map<String, dynamic>;
+      final jsonMap = dataList[0][id] as Map<String, dynamic>;
 
       return ListView.builder(
         itemCount: jsonMap.length,

@@ -3,7 +3,7 @@
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDBService {
-  final db = Db('mongodb://192.168.1.100:27017/SAIF');
+  final db = Db('mongodb://localhost:27017/SAIF');
   var collection;
   String collection_Name ="";
 
